@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+    
+    <!-- PRODUCT DETAILS AREA START -->
+    <div class="ltn__product-area ltn__product-gutter mb-120 mt-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ltn__shop-options">
+                        <ul>
+                            <li>
+                               <div class="showing-product-number text-right">
+                                    <span>Showing 1–12 of 18 results</span>
+                                </div> 
+                            </li>
+                            <li>
+                               <div class="short-by text-center">
+                                    <select class="nice-select">
+                                        <option>Default Sorting</option>
+                                        <option>Sort by popularity</option>
+                                        <option>Sort by new arrivals</option>
+                                        <option>Sort by price: low to high</option>
+                                        <option>Sort by price: high to low</option>
+                                    </select>
+                                </div> 
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="liton_product_grid">
+                            <div class="ltn__product-tab-content-inner ltn__product-grid-view">
+                                <div class="row">
+                                    {% for prod in product_page %}
+                                    <!-- ltn__product-item -->
+                                    <div class="col-xl-4 col-sm-6 col-6">
+                                        <div class="ltn__product-item ltn__product-item-3 text-center">
+                                            <div class="product-img">
+                                                <a href="{% url 'product_detail' id=prod.id %}">
+                                                    <img src="{{ prod.image.url }}" alt="#" style="width: 200px; height: 200px; object-fit: contain;">
+                                                </a>
+                                            </div>
+                                            <div class="product-info">
+                                                <h1 class="product-title"><a href="{% url 'product_detail' id=prod.id %}">{{ prod.product_title }}</a></h1>
+                                                <div class="product-price">
+                                                    <span>Price: ${{ prod.price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pagination -->
+                    <div class="ltn__pagination-area text-center">
+                        <div class="ltn__pagination mb-40">
+                            <ul>
+                                {% if product_page.has_previous %}
+                                <li><a href="?page=1"><i class="fas fa-angle-double-left"></i></a></li>
+                                <li><a href="?page={{ product_page.previous_page_number }}"><i class="fas fa-angle-left"></i></a></li>
+                                {% else %}
+                                <li class="disabled"><a><i class="fas fa-angle-double-left"></i></a></li>
+                                <li class="disabled"><a><i class="fas fa-angle-left"></i></a></li>
+                                {% endif %}
+                                
+                                {% for num in product_page.paginator.page_range %}
+                                {% if product_page.number == num %}
+                                <li class="active"><a>{{ num }}</a></li>
+                                {% else %}
+                                <li><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                    
+                                {% if product_page.has_next %}
+                                <li><a href="?page={{ product_page.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
+                                <li><a href="?page={{ product_page.paginator.num_pages }}"><i class="fas fa-angle-double-right"></i></a></li>
+                                {% else %}
+                                <li class="disabled"><a><i class="fas fa-angle-right"></i></a></li>
+                                <li class="disabled"><a><i class="fas fa-angle-double-right"></i></a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-4">
+                    <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                        <!-- Category Widget -->
+                        <div class="widget ltn__menu-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Filter by categories</h4>
+                            <ul>
+                                {% for category in categories %}
+                                <li><a href="?category={{ category.id }}">{{ category.category_name }} <span><i class="fas fa-long-arrow-alt-right"></i></span></a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                                            
+                        <!-- Top Rated Product Widget -->
+                        <div class="widget ltn__top-rated-product-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Popular Products</h4>
+                            <ul>
+                                {% for popular_product in popular_products %}
+                                <li>
+                                    <div class="top-rated-product-item clearfix">
+                                        <div class="top-rated-product-img">
+                                            <a href="{% url 'product_detail' id=popular_product.id %}">
+                                                <img src="{{ popular_product.image.url }}" alt="#" style=" object-fit: contain;">
+                                            </a>
+                                        </div>
+                                        <div class="top-rated-product-info">
+                                            <h6 class="product-title"><a href="{% url 'product_detail' id=popular_product.id %}">{{ popular_product.product_title }}</a></h6>
+                                            <div class="product-price">
+                                                <span>Price: ${{ popular_product.price }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- Size Widget -->
+                        <div class="widget ltn__tagcloud-widget ltn__size-widget">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Product Size</h4>
+                            <ul>
+                                <li><a href="#">S</a></li>
+                                <li><a href="#">M</a></li>
+                                <li><a href="#">L</a></li>
+                                <li><a href="#">XL</a></li>
+                                <li><a href="#">XXL</a></li>
+                            </ul>
+                        </div>
+                    
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PRODUCT DETAILS AREA END -->
+
+
+    {% endblock content %}

@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+ 
+
+
+    <!-- WISHLIST AREA START -->
+    <div class="ltn__checkout-area mb-105 mt-40">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ltn__checkout-inner">
+                        <div class="ltn__checkout-single-content mt-50">
+                            <h4 class="title-2">Billing Details</h4>   
+                            <div class="ltn__checkout-single-content-info">
+                                <form id="checkout-form" action="{% url 'place_order' %}" method="POST">
+                                    {% csrf_token %}
+                                    <h6>Personal Information</h6>
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            First Name: {{ form.first_name }}
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            Last Name: {{ form.last_name }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            Phone Number: {{ form.phone }}
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            Email Address: {{ form.email }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-12 col-sm-12 col-lg-12">
+                                            Address: {{ form.address }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            Country: {{ form.country }}
+                                        </div>
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            State: {{ form.state }}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6 col-sm-12 col-lg-6">
+                                            City: {{ form.city }}
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+
+                    <div class="col-lg-12">
+                    <div class="ltn__checkout-inner">
+                        <div class="ltn__checkout-single-content mt-50">
+                            <h4 class="title-2">Products</h4>   
+                            <div class="ltn__checkout-single-content-info">
+                            <table class="table" style="background-color:white;">
+                                
+                                <tbody>
+                                    
+                                    {% for cart_item in cart_items %}
+                                    <tr  id="cart-item-{{ cart_item.id }}" >
+                                        
+                                        
+                                        
+                                        <td class="cart-product-image">
+                                            <a href="product-details.html"><img src="{{ cart_item.project.image.url }}" alt="#"></a>
+                                        </td>
+                                        <td class="cart-product-info">
+                                            <h4><a href="product-details.html">{{ cart_item.project.project_title }}</a></h4>
+                                        </td>
+                                        <td class="cart-product-quantity">
+                                            
+                                            <label id="qty-{{ cart_item.project.id }}">{{ cart_item.quantity }}</label>
+                                        </td>
+                                        {% endfor %} 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                            
+        </div>
+    </div>
+
+        
+                <div class="col-lg-6">
+                    <div class="ltn__checkout-payment-method mt-50">
+                        <h4 class="title-2">Payment Method</h4>
+                        <div id="checkout_accordion_1">
+                           
+                            &emsp;
+                            <label>
+                                <input type="radio" name="payment_method" value="PayPal">
+                                <img src="{% static 'img/paypal.jpg' %}" alt="PayPal" width="100">
+                            </label>
+                        </div>
+                        <div class="ltn__payment-note mt-30 mb-30">
+                            <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.</p>
+                        </div>
+                        <span class="text-danger" id="payment-method-error"></span><br>
+                        <button onclick="return payMethodConfirm();" type="button" class="btn theme-btn-1 btn-effect-1 text-uppercase">Place order</button>
+                    </div>
+                </div>
+            </form>
+            <!-- form ends here -->
+                <div class="col-lg-6">
+                    <div class="shoping-cart-total mt-50">
+                        <h4 class="title-2">Cart Totals</h4>
+                        <table class="table">
+                            <tbody>
+
+                                {% for key, value in tax_dict.items %}
+                                {% for i, j in value.items %}
+                                    <tr>
+                                        <td>{{ key }} <small>({{ i }}%)</small></td>
+                                        <td>
+                                            <span class="price ">
+                                                <span class="currency">रु‎</span>
+                                                <span id="tax-{{ key }}">{{ j }}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+
+                            {% for cart_item in cart_items %}
+                            <tr>
+                                <td>Quantity</td>
+                                <td><span id="quantity-{{ cart_item.project.id }}"> {{ cart_item.quantity}} </span></td>
+                            </tr>
+                            <tr>
+                         {% endfor %}
+
+                                <td>Cart Subtotal</td>
+                                <td><span id="subtotal">रु‎ {{ subtotal }}</span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td><strong>Order Total</strong></td>
+                                <td><strong>रु‎ <span id="total">{{ grand_total }}</span></strong></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function payMethodConfirm(){
+        var payMethod = $("input[name='payment_method']:checked").val();
+        if(!payMethod){
+            $('#payment-method-error').html("Select Payment Method!");
+            return false;
+        } else {
+            Swal.fire({
+                title: 'Confirm Payment Method',
+                text: 'You have selected ' + payMethod + ' as your preferred payment method.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'OK',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Trigger form submission
+                    $('#checkout-form').submit();
+                } else {
+                    // User canceled the confirmation
+                    return false;
+                }
+            });
+            return false; // Prevent form submission until user confirms
+        }
+    }
+    
+    $('input[name=payment_method]').on('change', function(){
+        $('#payment-method-error').html("");
+    });
+</script>
+
+{% endblock content %}

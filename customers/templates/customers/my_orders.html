@@ -1,0 +1,54 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'includes/alerts.html' %}
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0 font-size-18">My Orders</h4>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Orders</h4>
+                <table id="basic-datatable" class="table table-striped dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                
+                
+                    <tbody>
+                        {% for order in orders %}
+                          <tr>
+                            <td>{{ order.order_number }}</td>
+                            <td>{{ order.name }}</td>
+                            <td> $ {{ order.total }}</td>
+                            <td>{{ order.status }}</td>
+                            <td>{{ order.created_at }}</td>
+                            <td><a href="{% url 'customer_order_detail' order.order_number %}" class="btn btn rounded-lg" style="background-color:#2B3D51;color:white;">Details</a></td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+<!-- end row-->
+{% endblock %}

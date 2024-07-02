@@ -1,0 +1,328 @@
+<!doctype html>
+    <html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>StyleSavvy</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+        <!-- Place favicon.png in the root directory -->
+        <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" type="image/x-icon" />
+        <!-- Font Icons css -->
+        <link rel="stylesheet" href="{% static "css/fonts.css" %}">
+        <link rel="stylesheet" href="{% static "css/plugins.css" %}">
+        <link rel="stylesheet" href="{% static "css/font-icons.css" %}">
+        <link rel="stylesheet" href="{% static "css/webfonts.css" %}">
+        <!-- plugins css -->
+        <link rel="stylesheet" href="{% static 'css/plugins.css' %}">
+        <!-- Main Stylesheet -->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <!-- Responsive css -->
+        <link rel="stylesheet" href="{% static "css/responsive.css" %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/font-awesome.min.css">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <!-- Include the PayPal JavaScript SDK -->
+        <link href="https://cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css" rel="stylesheet">
+        {% comment %} <script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&currency=USD"></script> {% endcomment %}
+        <script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&components=buttons&enable-funding=venmo,paylater" data-sdk-integration-source="integrationbuilder_sc"></script>
+    <script src="{% static "js/paymentapp.js" %}"></script>
+    </head>
+    
+
+
+<body>
+
+
+    <!-- Body main wrapper start -->
+<div class="body-wrapper">    
+    
+<!-- HEADER AREA START (header-5) -->
+<header class="ltn__header-area ltn__header-5 ltn__header-logo-and-mobile-menu-in-mobile ">
+    <!-- ltn__header-middle-area start -->
+    <div class="ltn__header-middle-area ltn__header-sticky">
+        <div class="container ">
+            <div class="row ">
+                <div class="">
+                    <div class="site-logo-wrap">
+                        <div class="site-logo">
+                            <a href="#index">
+                                <img src="{% static 'img/logo.png' %}" height="70" width="150" alt="Logo">
+                            </a>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col header-menu-column ">
+                    <div class="header-menu d-none d-xl-block">
+                        <nav>
+                            <div class="ltn__main-menu text-dark">
+                                <ul>
+                                    <li class="text-danger"><a href="{% url "index" %}">Home</a></li>
+                                    <li class="menu-icon"><a href="#">About</a></li>            
+                                    <li class="menu-icon"><a href="{% url "shop" %}">Shop</a></li>
+                                    <li class="menu-icon"><a href="{% url "contact" %}">Contact</a></li>
+                                    <li>
+                                         {% if user.is_authenticated %}
+                                        <a href="{% url 'logout' %}">Logout</a></li>
+                                        <li style="position: absolute; right: 0;">
+                                            <a href="{% url 'myAccount' %}">
+                                                <img src="{{user.userprofile.profile_picture.url}}" width="40" height="40" alt="Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; margin-right: 10px;"><span>My Account</span>
+                                            </a>
+
+                                        
+                                        {% else %}
+                                        <a href="{% url 'login' %}">Login</a></li>
+                                        {% endif %}
+                                    </li>
+                                    {% if user.is_authenticated %}
+                                    <li>
+                                        <a href="{% url "cart" %}" title="Shopping Cart" style="margin-left: 10px;">
+                                            <span class="utilize-btn-icon">
+                                                <i class="fas fa-shopping-cart" ></i>
+                                                <span class="badge badge-warning" id="cart_counter" style="border-radius: 50px; position: relative; bottom: 10px; left: -5px;">{{ cart_count }}</span>
+                                            </span>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                        </nav>
+                        
+                    </div>
+                 
+                </div>
+
+                <div class="ltn__header-options ltn__header-options-2 ">
+                        <!-- mini-cart -->
+                        {% if not user.is_authenticated %}                                                             
+                            <a class="btn theme-btn-1 rounded-pill" href="{% url 'registerUser' %}" style="margin-top: 10px; margin-bottom: 10px; padding: 10px 5px; border-radius: 10px; width: 150px;">Register</a>
+                            {% endif %} 
+                    </div>
+                   
+                    <!-- Mobile Menu Button -->
+                    <div class="mobile-menu-toggle d-xl-none">
+                    <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
+                        <svg viewBox="0 0 800 600">
+                            <path d="M300,220 C300,220 520,220 540,220 C740,220 640,540 520,420 C440,340 300,200 300,200" id="top" stroke="white"></path>
+                            <path d="M300,320 L540,320" id="middle" stroke="white"></path>
+                            <path d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190" id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318)" stroke="white"></path>
+                        </svg>
+                    </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Utilize Mobile Menu Start -->
+<div id="ltn__utilize-mobile-menu" class="ltn__utilize ltn__utilize-mobile-menu">
+    <div class="ltn__utilize-menu-inner ltn__scrollbar">
+        <div class="ltn__utilize-menu-head">
+            <div class="site-logo">
+                <img src="{% static 'img/logo.png' %}" height="70" width="150" alt="Logo">
+            </div>
+            
+            <button class="ltn__utilize-close">×</button>
+        </div>
+        <div class="ltn__utilize-menu">
+            <ul>
+                <li class="text-danger"><a href="{% url "index" %}">Home</a></li>
+                <li class="menu-icon"><a href="#">About</a></li>            
+                <li class="menu-icon"><a href="{% url "shop" %}">Shop</a></li>
+                <li class="menu-icon"><a href="{% url "contact" %}">Contact</a></li>
+                <li>
+                     {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Logout</a></li>
+                    <li style="position: absolute; right: 0;">
+                        <a href="{% url 'myAccount' %}">
+                            <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" width="40" height="40" alt="Profile Picture"><span>My Account</span>
+                        </a>
+                    </li>
+                    {% else %}
+                    <a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+            </ul>
+        </div>
+        <div class="ltn__utilize-buttons ltn__utilize-buttons-2">
+            <ul>
+                
+            </ul>
+        </div>
+        
+        <div class="ltn__social-media-2">
+            <ul>
+                <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Utilize Mobile Menu End -->
+
+<div class="ltn__utilize-overlay"></div>
+
+{% block content %}
+{% endblock content %}
+<!-- FOOTER AREA START -->
+<footer class="ltn__footer-area pb-0">
+    <div class="footer-top-area plr--5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xl-3 col-md-6 col-sm-6 col-12">
+                    <div class="footer-widget footer-about-widget">
+                        <div class="footer-logo">
+                            <div class="site-logo">
+                                <img src="{% static 'img/logo.png' %}" height="80" width="180" alt="Logo">
+                            </div>
+                        </div>
+                        <p class="text-light">A complete solution to your shopping list.</p>
+                        <div class="footer-address">
+                            <ul>
+                                <li>
+                                    <div class="footer-address-icon">
+                                        <i class="icon-placeholder"></i>
+                                    </div>
+                                    <div class="footer-address-info">
+                                        <p class="text-light">Ohio,USA</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="footer-address-icon">
+                                        <i class="icon-call"></i>
+                                    </div>
+                                    <div class="footer-address-info">
+                                        <p class="text-light"><a href="tel:+0123-456789">01-5513122</a></p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="footer-address-icon">
+                                        <i class="icon-mail"></i>
+                                    </div>
+                                    <div class="footer-address-info">
+                                        <p class="text-light"><a href="mailto:example@example.com">info.stylesavvy@gmail.com</a></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ltn__social-media mt-20">
+                            <ul>
+                                <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a></li>
+                                <li><a href="#" title="Youtube"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                    <div class="footer-widget footer-menu-widget clearfix">
+                        <h4 class="footer-title"><a href="{% url "registerVendor" %}">Register Vendor</a></h4>
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="">About</a></li>
+                                <li><a href="locations.html">Locations Map</a></li>
+                                <li><a href="">FAQ</a></li>
+                                <li><a href="{% url "contact" %}">Contact us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                    <div class="footer-widget footer-menu-widget clearfix">
+                        <h4 class="footer-title">Services</h4>
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="{% url 'login' %}">Login</a></li>
+                                
+                                <li><a href="about.html">Terms & Conditions</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-6 col-sm-6 col-12">
+                    <div class="footer-widget footer-menu-widget clearfix">
+                        <h4 class="footer-title">Customer Care</h4>
+                        <div class="footer-menu">
+                            <ul>
+                                <li><a href="">Login</a></li>
+                                <li><a href="account.html">My account</a></li>
+                                <li><a href="wishlist.html">Wish List</a></li>
+                                
+                                <li><a href="">FAQ</a></li>
+                                <li><a href="{% url "contact" %}">Contact us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 col-sm-12 col-12">
+                    <div class="footer-widget footer-newsletter-widget">
+                        <h4 class="footer-title">Issue</h4>
+                        <p class="text-light">We will reach to you to solve any issues.</p>
+                        <div class="footer-newsletter">
+                            <form action="#">
+                                <input type="email" name="email" placeholder="Email*">
+                                <div class="btn-wrapper">
+                                    <button class="theme-btn-1 btn" type="submit"><i class="fas fa-location-arrow"></i></button>
+                                </div>
+                            </form>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ltn__copyright-area ltn__copyright-2 section-bg-7">
+        <div class="container-fluid ltn__border-top-2">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="ltn__copyright-design clearfix">
+                        <p class="text-light">All Rights Reserved @ StyleSavvy <span class="current-year"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12 align-self-center">
+                    <div class="ltn__copyright-menu text-right">
+                        <ul>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Claim</a></li>
+                            <li><a href="#">Privacy & Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- FOOTER AREA END -->
+
+</div>
+<!-- Body main wrapper end -->
+
+    <!-- preloader area start -->
+    <div class="preloader d-none" id="preloader">
+        <div class="preloader-inner">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- preloader area end -->
+
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+</body>
+</html>
+
+

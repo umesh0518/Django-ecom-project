@@ -1,0 +1,204 @@
+{% extends 'base2.html' %}
+{% block content %}
+{% load static %}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!-- Load message -->
+        {% include 'includes/alerts.html' %}
+    </div>
+</div>
+{% if vendor_notice %}
+<div class="alert alert-success mb-0 " style="background-color:#F4D160; color:black;padding:30px;" role="alert">
+    <h5 class="alert-heading "><img  style="margin-right:5px;margin-bottom:2px;" src="{% static 'img/notification.png' %}">{{ vendor_notice.title }}</h5>
+    <p style="text-align: justify;">{{ vendor_notice.notice }}</p>
+    
+</div>
+{% else %}
+<div class="alert alert-success mb-0" role="alert">
+    <h5 class="alert-heading ">Welcome, {{user.first_name}}</h5>
+</div>
+
+{% endif %}
+
+<br>
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="card-title mb-0">Total Orders</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            {{orders_count}}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="progress shadow-sm" style="height: 5px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <!--end card body-->
+        </div><!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="card-title mb-0">Total Revenue</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            $ {{ total_revenue }}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="progress shadow-sm" style="height: 5px;">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <!--end card body-->
+        </div><!-- end card-->
+    </div> <!-- end col-->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="card-title mb-0">Listed Products</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            {{product_count}}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="progress shadow-sm" style="height: 5px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+            <!--end card body-->
+        </div>
+        <!--end card-->
+    </div> <!-- end col-->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="card-title mb-0">Daily Visits</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0 website-counter">
+                            {{ visitor_count }}
+                        </h2>
+                    </div>
+                </div>
+
+                <div class="progress shadow-sm" style="height: 5px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 100%;"></div>
+                </div>
+            </div>
+            <!--end card body-->
+        </div><!-- end card-->
+    </div> <!-- end col-->
+</div>
+<br>
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h2>Weekly Sales </h2>
+            <canvas id="salesChart" style="width:100% ; height:400px"></canvas>
+        </div>
+    </div>
+</div>
+<!-- end row-->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>Recent Orders</h2>
+                <table id="basic-datatable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Order Number</th>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td><a href="{% url 'vendor_order_detail' order.order_number %}">{{ order.order_number }}</a></td>
+                            <td>{{ order.user }}</td>
+                            <td>{{ order.product }}</td>
+                            <td>{{ order.total }}</td>
+                            <td><span class="badge badge-success">{{ order.status }}</span></td>
+                            <td>{{ order.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+    const labels = {{ dates|safe }};
+    const data = {{ total_sales|safe }};
+
+    new Chart("salesChart", {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Sales $',
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: data
+            }]
+        },
+        options: {
+            legend: {display: true},
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Sales Amount'
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+{% endblock %}

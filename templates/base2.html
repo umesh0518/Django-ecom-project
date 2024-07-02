@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+        <title> StyleSavvy </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="shortcut icon" href="{% static "img/logo.png" %}">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- App css -->
+        <link href="{% static "assets/css/bootstrap.min.css" %}" rel="stylesheet" type="text/css" />
+        <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" type="text/css" />
+        <link href="{% static "assets/css/icons.css" %}" rel="stylesheet" type="text/css" />
+
+        <link href="{% static 'plugins/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'plugins/datatables/responsive.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'plugins/datatables/buttons.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'plugins/datatables/select.bootstrap4.css' %}" rel="stylesheet" type="text/css" />
+
+        <script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        
+   
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    </head>
+
+    <body>        
+        <!-- Begin page -->
+        <div id="layout-wrapper">
+            <div class="header-border"></div>
+            <header id="page-topbar">
+                <div class="navbar-header">
+
+                    <div class="d-flex align-items-left">
+                        <button type="button" class="btn btn-sm mr-2 d-lg-none px-3 font-size-16 header-item waves-effect"
+                            id="vertical-menu-btn">
+                            <i class="fa fa-fw fa-bars"></i>
+                        </button>
+
+                        <div class="dropdown d-none d-sm-inline-block">
+                            <a href="{% url 'index' %}">
+                            <button type="button" class="btn header-item waves-effect">
+                                Home
+                            </button>
+                            </a>
+                            
+                        </div>
+                        <div class="dropdown d-none d-sm-inline-block">
+                            <a href="">
+                            <button type="button" class="btn header-item waves-effect">
+                                About
+                            </button>
+                            </a>
+                            
+                        </div>
+                        <div class="dropdown d-none d-sm-inline-block">
+                            <a href="{% url 'shop' %}">
+                            <button type="button" class="btn header-item waves-effect">
+                                Market
+                            </button>
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown d-none d-sm-inline-block ml-2">
+                            <button type="button" class="btn header-item noti-icon waves-effect"
+                                id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <i class="mdi mdi-magnify"></i>
+                            </button>
+                        
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+                                aria-labelledby="page-header-search-dropdown">
+
+                                <form >
+                                    <div class="form-group m-0">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search ..."
+                                                aria-label="Recipient's username">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit"><i
+                                                        class="mdi mdi-magnify"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        
+                        <div class="dropdown d-inline-block ml-2">
+                            <button type="button" class="btn header-item waves-effect"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="d-none d-sm-inline-block ml-1"> {{user.email}}</span>
+                                <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                               
+                                <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                    href="">
+                                    Profile
+                                </a>
+                               
+                                <a class="dropdown-item d-flex align-items-center justify-content-between"
+                                    href="{% url "logout" %}">
+                                    <span>Log Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ========== Left Sidebar Start ========== -->
+            <div class="vertical-menu">
+                <div data-simplebar class="h-100">
+                    <div class="navbar-brand-box">
+                            <a href="{% url "index" %}" >
+                            <img  src="{% static 'img/logo.png' %}" height="60" width="130" alt="Dashboard Logo">
+                        </a>
+                    </div>
+                    <!--- Sidemenu -->
+                    <div id="sidebar-menu">
+                        <!-- Left Menu Start -->
+                        <ul class="metismenu list-unstyled" id="side-menu">
+                            <li class="menu-title">Menu</li>
+
+                            {% if user.role == user.CUSTOMER %}
+                            <li>
+                                <a href="{% url "custDashboard" %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "cprofile" %}" class="waves-effect"><i class="mdi mdi-account"></i><span>Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "customer_my_orders" %}" class="waves-effect"><i class="mdi mdi-cart"></i><span>Orders</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'user_change_password' %}" class="waves-effect"><i class="mdi mdi-lock-reset"></i><span>Change Password</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "logout" %}" class="waves-effect"><i class="mdi mdi-logout"></i><span>Logout</span></a>
+                            </li>
+                            
+                            {% elif user.role == user.VENDOR %}
+                            <li>
+                                <a href="{% url "vendorDashboard" %}" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span>Dashboard</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "product_builder"  %}" class="waves-effect"><i class="mdi mdi-box"></i><span>Products</span></a>
+                            </li>
+                            
+                            <li>
+                                <a href="{% url "add_product" %}" class="waves-effect"><i class="mdi mdi-plus"></i><span>Add Product</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "vprofile" %}" class="waves-effect"><i class="mdi mdi-account"></i><span>Profile</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "vendor_my_orders" %}" class="waves-effect"><i class="mdi mdi-cart"></i><span>Orders</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "vendor_change_password" %}" class="waves-effect"><i class="mdi mdi-lock-reset"></i><span>Change Password</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url "logout" %}" class="waves-effect"><i class="mdi mdi-logout"></i><span>Logout</span></a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                    <!-- Sidebar -->
+                </div>
+            </div>
+            <!-- Left Sidebar End -->
+
+            <div class="main-content">
+
+                <div class="page-content">
+                    <div class="container-fluid">
+                        {% block content %}
+
+                        
+                        {% endblock content %}
+                    </div> 
+                </div>
+                <!-- End Page-content -->
+                
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row">
+                                
+                            <div class="col-sm-6">
+                                <h5> 2024 - StyleSavvy. </h5>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+            <!-- end main content-->
+
+        </div>
+        <!-- END layout-wrapper -->
+
+        <!-- Overlay-->
+        <div class="menu-overlay"></div>
+
+        <!-- jQuery  -->
+        <script src="{% static "assets/js/jquery.min.js" %}"></script>
+        <script src="{% static "assets/js/bootstrap.bundle.min.js" %}"></script>
+        <script src="{% static "assets/js/metismenu.min.js" %}"></script>
+        <script src="{% static "assets/js/waves.js" %}"></script>
+        <script src="{% static "assets/js/simplebar.min.js" %}"></script>
+
+        <!-- App js -->
+        <script src="{% static "assets/js/theme.js" %}"></script>
+
+        <!-- Include Select2 library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+        <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/dataTables.bootstrap4.js' %}"></script>
+        <script src="{% static 'plugins/datatables/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/responsive.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/buttons.bootstrap4.min.js' %}"></script> 
+        <script src="{% static 'plugins/datatables/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/buttons.flash.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/buttons.print.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/dataTables.keyTable.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/dataTables.select.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/pdfmake.min.js' %}"></script>
+        <script src="{% static 'plugins/datatables/vfs_fonts.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#basic-datatable').DataTable();
+            });
+            $(document).ready(function() {
+                $('#datatable-buttons').DataTable();
+            });
+        </script>
+
+
+    </body>
+
+</html>

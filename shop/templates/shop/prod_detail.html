@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+<!-- SHOP DETAILS AREA START -->
+<div class="ltn__shop-details-area pb-85 mt-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                {% for prod in product  %}
+                <div class="ltn__shop-details-inner mb-60">
+                    <div class="row">
+                        
+                        <div class="col-md-6">
+                            <div class="ltn__shop-details-img-gallery">
+                                <div class="ltn__shop-details-large-img">
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                    <div class="single-large-img">
+                                        <a href="{{prod.image.url}}" data-rel="lightcase:myCollection">
+                                            <img src="{{prod.image.url}}" alt="Image">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="ltn__shop-details-small-img slick-arrow-2">
+                                    <div class="single-small-img">
+                                        <img src="{{prod.image.url}}" alt="Image">
+                                    </div>
+                                    <div class="single-small-img">
+                                        <img src="{{prod.image.url}}" alt="Image">
+                                    </div>
+                                    <div class="single-small-img">
+                                        <img src="{{prod.image.url}}" alt="Image">
+                                    </div>
+                                    <div class="single-small-img">
+                                        <img src="{{prod.image.url}}" alt="Image">
+                                    </div>
+                                    <div class="single-small-img">
+                                        <img src="{{prod.image.url}}" alt="Image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="modal-product-info shop-details-info pl-0">
+                                <h3>{{prod.product_title}}</h3>
+                                <div class="product-price">
+                                    <span>$ {{prod.price}}</span>
+                                </div>
+                                <div class="modal-product-meta ltn__product-details-menu-1">
+                                    <ul>
+                                        <li>
+                                            <strong>Category:</strong> 
+                                            <span>
+                                                <a href="#">{{prod.category}}</a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ltn__product-details-menu-2">
+                                    <ul>
+                                        {% if user.is_authenticated and user.role == 2 %}
+                                        <li>
+                                            <a href="#" class="decrease_cart" data-id="{{ prod.id }}" data-url="{% url 'decrease_cart' prod.id %}" style="margin-right: 10px;">
+                                                <img src="{% static 'img/minus.png' %}">
+                                            </a>
+                                            <label id="qty-{{prod.id}}">0</label>
+                                            <a href="#" class="add_to_cart" data-id="{{ prod.id }}" data-url="{% url 'add_to_cart' prod.id %}" style="margin-left: 10px;">
+                                                <img src="{% static 'img/plus.png' %}">
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href={% url 'cart' %} class="theme-btn-1 btn btn-effect-1" title="Add to Cart"  style="height:45px">
+                                                <i class="fas fa-shopping-cart"></i>
+                                                <span>CART</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shop Tab Start -->
+                <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
+                    <div class="ltn__shop-details-tab-menu">
+                        <div class="nav">
+                            <a class="active show" data-toggle="tab" href="#liton_tab_details_1_1">Description</a>
+                        </div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="liton_tab_details_1_1">
+                            <div class="ltn__shop-details-tab-content-inner">
+                                <h4 class="title-2">Product Details.</h4>
+                                <p>{{prod.description}}</p> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Shop Tab End -->
+                {% endfor %}
+            </div>
+            
+            <div class="col-lg-4">
+                <aside class="sidebar ltn__shop-sidebar ltn__right-sidebar">
+                    <!-- Top Rated Product Widget -->
+                    <div class="widget ltn__top-rated-product-widget">
+                        <h4 class="ltn__widget-title ltn__widget-title-border">Popular Products</h4>
+                        <ul>
+                            {% for popular_product in popular_products %}
+                            <li>
+                                <div class="top-rated-product-item clearfix">
+                                    <div class="top-rated-product-img">
+                                        <a href="{% url 'product_detail' id=popular_product.id %}">
+                                            <img src="{{ popular_product.image.url }}" alt="#" style=" object-fit: contain;">
+                                        </a>
+                                    </div>
+                                    <div class="top-rated-product-info">
+                                        <h6 class="product-title"><a href="{% url 'product_detail' id=popular_product.id %}">{{ popular_product.product_title }}</a></h6>
+                                        <div class="product-price">
+                                            <span>Price: ${{ popular_product.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <hr>
+                        <div class="related-products mt-50">
+                            <h4 class="ltn__widget-title ltn__widget-title-border">Similar Products</h4>
+                            <div class="row">
+                                {% for related_product in related_products %}
+                                <div class="col-md-4">
+                                    <div class="product-img">
+                                        <a href="{% url 'product_detail' id=related_product.id %}">
+                                            <img src="{{ related_product.image.url }}" alt="#" style=" object-fit: contain;">
+                                        </a>
+                                    </div>
+                                    <div class="top-rated-product-info">
+                                        <h6 class="product-title"><a href="{% url 'product_detail' id=related_product.id %}">{{ related_product.product_title }}</a></h6>
+                                        <div class="product-price">
+                                            <span>Price: ${{ related_product.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SHOP DETAILS AREA END -->
+
+{% endblock content %}

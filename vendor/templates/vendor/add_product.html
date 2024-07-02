@@ -1,0 +1,129 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="p-3">
+                    <h1 class="text-uppercase" style="text-align:center;">Add your product.</h1><b>
+                    <hr>
+                    <button class="btn btn-primary btn-rounded waves-effect waves-light" onclick="history.back()"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button>
+                    <br><br>
+                    <form action="{% url 'add_product' %}" method="POST" enctype="multipart/form-data" style="margin-bottom:50px;">
+                        {% csrf_token %}
+                        <div class="form-fields-set">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="field-holder">
+                                        <label>Product Title *</label>
+                                        {{ form.product_title }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="field-holder">
+                                        <label>Category *</label><br>
+                                        {{ form.category }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="field-holder">
+                                        <label>Description</label>
+                                        {{ form.description }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="field-holder">
+                                        <label>Price</label>
+                                        {{ form.price }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="field-holder">
+                                        <label>Image</label>
+                                        {{ form.image }}
+                                        {{ form.image.errors }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="field-holder">
+                                        <div class="form-check form-check-inline p-2">
+                                            <label class="form-check-label" for="{{ form.is_available.id_for_label }}">Is Available</label>
+                                            <div class="pl-3">
+                                                {{ form.is_available }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="field-holder">
+                                        <button type="submit" class="btn btn-primary btn-rounded waves-effect waves-light" style="margin-top:20px;">
+                                            <i class="fa fa-check" aria-hidden="true"></i> Create
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end card body-->
+    </div> <!-- end card-->
+</div> <!-- end col -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{GOOGLE_API_KEY}}&libraries=places&callback=initAutoComplete"></script>
+<script src="{% static 'ecom/js/location_picker.js' %}"></script>
+
+<script>
+    var map;
+    var marker;
+    var latitudeInput = document.getElementById('id_latitude');
+    var longitudeInput = document.getElementById('id_longitude');
+
+    function initMap() {
+        var initialLat = parseFloat(latitudeInput.value) || 27.706112;
+        var initialLng = parseFloat(longitudeInput.value) || 85.345665;
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: { lat: initialLat, lng: initialLng }
+        });
+
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            position: { lat: initialLat, lng: initialLng }
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function () {
+            latitudeInput.value = marker.getPosition().lat().toFixed(6);
+            longitudeInput.value = marker.getPosition().lng().toFixed(6);
+        });
+
+        // Update the map and marker when latitude or longitude fields are edited
+        latitudeInput.addEventListener('input', updateMapAndMarker);
+        longitudeInput.addEventListener('input', updateMapAndMarker);
+    }
+
+    function updateMapAndMarker() {
+        var lat = parseFloat(latitudeInput.value);
+        var lng = parseFloat(longitudeInput.value);
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+            marker.setPosition({ lat: lat, lng: lng });
+            map.setCenter({ lat: lat, lng: lng });
+        }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+</script>
+
+
+{% endblock content %}

@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- SLIDER AREA START (slider-3) -->
+<div class="ltn__slider-area ltn__slider-3  section-bg-2--- ltn__slider-normal-height">
+    <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/71.jpg">
+            <div class="ltn__slide-item-inner  text-left">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Create your own style</h6>
+                                    <h1 class="slide-title animated ">New Collections </h1>
+                                    <div class="slide-brief animated">
+                                        <p>Create your style without compromising comfort.</p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a href="" class="theme-btn-2 btn btn-effect-2">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/74.jpg">
+            <div class="ltn__slide-item-inner  text-right">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Great Experience In Building</h6>
+                                    <h1 class="slide-title animated ">Highest Standards <br> Of Construction</h1>
+                                    <div class="slide-brief animated">
+                                        <p>All types of work – from designing and laying the Foundation
+                                            finishing and commissioning. Tight deadlines, reasonable.</p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a href="contact.html" class="theme-btn-1 btn btn-effect-1">Get A Quate</a>
+                                        <a href="about.html" class="theme-btn-2 btn btn-effect-2">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ltn__slide-item -->
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/71.jpg">
+            <div class="ltn__slide-item-inner  text-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 align-self-center">
+                            <div class="slide-item-info">
+                                <div class="slide-item-info-inner ltn__slide-animation">
+                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Great Experience In Building</h6>
+                                    <h1 class="slide-title animated ">Highest Standards <br> Of Construction</h1>
+                                    <div class="slide-brief animated">
+                                        <p>All types of work – from designing and laying the Foundation
+                                            finishing and commissioning. Tight deadlines, reasonable.</p>
+                                    </div>
+                                    <div class="btn-wrapper animated">
+                                        <a href="contact.html" class="theme-btn-1 btn btn-effect-1">Get A Quate</a>
+                                        <a href="about.html" class="theme-btn-2 btn btn-effect-2">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+</div>
+<!-- SLIDER AREA END -->
+
+
+<!-- IMAGE SLIDER AREA START (img-slider-3) ( Product Section) -->
+<div class="ltn__img-slider-area pt-120 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2 text-center">
+                    <h6 class="section-subtitle ltn__secondary-color"><span><i class="fas fa-square-full"></i></span> New Launch</h6>
+                    <h1 class="section-title">Our Recent Collection</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row ltn__image-slider-3-active slick-arrow-1 slick-arrow-1-inner---">
+            {% for product in recent_products %}
+            <div class="col-lg-12">
+                <div class="ltn__img-slide-item-3 ltn__img-slide-item-3-2">
+                    <a href="portfolio-details.html">
+                        <img src="{{product.image.url}}" alt="Image" style="height: 400px; object-fit: contain;">
+                    </a>
+                    <div class="ltn__img-slide-info">
+                        <div class="ltn__img-slide-info-brief">
+                            <h6>{{product.category}}</h6>
+                            <h1><a href="portfolio-details.html"> {{product.product_title}} </a></h1>
+                        </div>
+                        <div class="btn-wrapper">
+                            <a href="{% url "product_detail" id=product.id %}" class="btn-- theme-btn-1-- btn-effect-1--">View Product<i class="flaticon-right-arrow"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- IMAGE SLIDER AREA END -->
+
+
+<!-- TESTIMONIAL AREA START (testimonial-7) -->
+<div class="ltn__testimonial-area section-bg-1--- bg-image-top pt-115 pb-70" data-bg="img/bg/20.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title-area ltn__section-title-2 text-center">
+                    <h6 class="section-subtitle ltn__secondary-color"><span><i class="fas fa-square-full"></i></span> Client,s Feedback</h6>
+                    <h1 class="section-title">Client,s Feedback</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row ltn__testimonial-slider-5-active slick-arrow-1">
+            <div class="col-lg-4">
+                <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                    <div class="ltn__testimoni-info">
+                        <p><i class="flaticon-left-quote-1"></i> 
+                            Precious ipsum dolor sit amet
+                            consectetur adipisicing elit, sed dos
+                            mod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad min
+                            veniam, quis nostrud Precious ips
+                            um dolor sit amet, consecte</p>
+                        <div class="ltn__testimoni-info-inner">
+                            <div class="ltn__testimoni-img">
+                                <img src="{% static "img/testimonial/1.jpg" %}" alt="#">
+                            </div>
+                            <div class="ltn__testimoni-name-designation">
+                                <h5>Jacob William</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                    <div class="ltn__testimoni-info">
+                        <p><i class="flaticon-left-quote-1"></i> 
+                            Precious ipsum dolor sit amet
+                            consectetur adipisicing elit, sed dos
+                            mod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad min
+                            veniam, quis nostrud Precious ips
+                            um dolor sit amet, consecte</p>
+                        <div class="ltn__testimoni-info-inner">
+                            <div class="ltn__testimoni-img">
+                                <img src="{% static "img/testimonial/2.jpg" %}" alt="#">
+                            </div>
+                            <div class="ltn__testimoni-name-designation">
+                                <h5>Jacob William</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                    <div class="ltn__testimoni-info">
+                        <p><i class="flaticon-left-quote-1"></i> 
+                            Precious ipsum dolor sit amet
+                            consectetur adipisicing elit, sed dos
+                            mod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad min
+                            veniam, quis nostrud Precious ips
+                            um dolor sit amet, consecte</p>
+                        <div class="ltn__testimoni-info-inner">
+                            <div class="ltn__testimoni-img">
+                                <img src="{% static "img/testimonial/3.jpg" %}" alt="#">
+                            </div>
+                            <div class="ltn__testimoni-name-designation">
+                                <h5>Jacob William</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="ltn__testimonial-item ltn__testimonial-item-7">
+                    <div class="ltn__testimoni-info">
+                        <p><i class="flaticon-left-quote-1"></i> 
+                            Precious ipsum dolor sit amet
+                            consectetur adipisicing elit, sed dos
+                            mod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad min
+                            veniam, quis nostrud Precious ips
+                            um dolor sit amet, consecte</p>
+                        <div class="ltn__testimoni-info-inner">
+                            <div class="ltn__testimoni-img">
+                                <img src="{% static "img/testimonial/4.jpg" %}" alt="#">
+                            </div>
+                            <div class="ltn__testimoni-name-designation">
+                                <h5>Jacob William</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  -->
+        </div>
+    </div>
+</div>
+<!-- TESTIMONIAL AREA END -->
+
+
+{% endblock content %}
+
+
+
+
+
+
