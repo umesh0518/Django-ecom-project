@@ -11,6 +11,7 @@ from django.shortcuts import render, get_object_or_404,redirect
 from django.http.response import JsonResponse
 from django.contrib.auth.decorators import login_required , user_passes_test
 from account.views import check_role_customer
+from django.urls import reverse
 
 import logging  
 
@@ -75,6 +76,9 @@ def get_cart_details(request):
         'product_quantities': product_quantities,
     })
 
+
+@login_required(login_url='login')
+@user_passes_test(check_role_customer)
 def cart(request):
     cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
     cart_count = cart_items.count()
@@ -149,27 +153,18 @@ def decrease_cart(request, product_id):
 @login_required(login_url='login')
 @user_passes_test(check_role_customer)
 def delete_cart(request, cart_id):
-    logger.info(f'delete_cart called with cart_id: {cart_id}')
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        try:
-            cart_item = get_object_or_404(Cart, user=request.user, id=cart_id)
-            cart_item.delete()
-            logger.info(f'Cart item deleted successfully with cart_id: {cart_id}')
-            return JsonResponse({
-                'status': 'Success',
-                'message': 'Cart item has been deleted!',
-                'cart_counter': get_cart_counter(request),
-                'cart_amount': get_cart_amounts(request)
-            })
-        except Cart.DoesNotExist:
-            logger.error(f'Cart item with id {cart_id} does not exist.')
-            return JsonResponse({'status': 'Failed', 'message': 'Cart item does not exist!'})
-        except Exception as e:
-            logger.error(f'Unexpected error in delete_cart: {str(e)}')
-            return JsonResponse({'status': 'Failed', 'message': 'An unexpected error occurred'})
-    else:
-        return JsonResponse({'status': 'Failed', 'message': 'Invalid request!'})
-
+    if request.user.is_authenticated:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            try:
+                # Check if the cart item exists
+                cart_item = Cart.objects.get(user=request.user, id=cart_id)
+                if cart_item:
+                    cart_item.delete()
+                    return JsonResponse({'status': 'Success', 'message': 'Cart item has been deleted!', 'cart_counter': get_cart_counter(request), 'cart_amount': get_cart_amounts(request) ,'redirect_url': reverse('cart')})
+            except:
+                return JsonResponse({'status': 'Failed', 'message': 'Cart Item does not exist!'})
+        else:
+            return JsonResponse({'status': 'Failed', 'message': 'Invalid request!'})
 
 
 @login_required(login_url='login')

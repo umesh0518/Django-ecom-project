@@ -1,4 +1,5 @@
 
+from django.db import IntegrityError
 from django.shortcuts import get_object_or_404, redirect, render
 from customers.forms import UserProfileForm
 from orders.models import Order, ProductOrder
@@ -76,10 +77,10 @@ def product_builder(request):
 def add_product(request):
     vendor = get_vendor(request)
     print(f"Vendor: {vendor}")  # Debugging line
-    
+
     if vendor is None:
         messages.error(request, 'You are not authorized to add products.')
-      
+        return redirect('some_page')  # Redirect to an appropriate page
 
     if request.method == 'POST':
         form = ProductItemForm(request.POST, request.FILES)
@@ -88,16 +89,17 @@ def add_product(request):
             product = form.save(commit=False)
             product.vendor = vendor  # Ensure vendor is set
             product.slug = slugify(productTitle)
-            product.save()
-            messages.success(request, 'Product Item added successfully!')
-            return redirect("product_builder")
+            try:
+                product.save()
+                messages.success(request, 'Product Item added successfully!')
+                return redirect("product_builder")
+            except IntegrityError:
+                messages.error(request, 'A product with this title already exists. Please choose a different title.')
+                return redirect("add_product")
         else:
             print(form.errors)
     else:
         form = ProductItemForm()
-        # Optionally, filter categories based on vendor if needed
-        # form.fields['category'].queryset = Category.objects.filter(vendor=vendor)
-
     context = {
         'form': form,
     }

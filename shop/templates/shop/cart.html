@@ -16,6 +16,7 @@
                                     <th>Product</th>
                                     <th>Price</th>
                                     <th>Quantity</th>
+                                    <th></th>
                                     <!-- Add more columns as needed -->
                                 </tr>
                             </thead>
@@ -23,10 +24,11 @@
                                 {% if cart_items %}
                                     {% for cart_item in cart_items %}
                                         <tr>
-                                            <td class="cart-product-image"><img src="{{ cart_item.project.image.url }}" alt="Product Image"></td>
+                                            <td class="cart-product-image"><img src="{{ cart_item.project.image.url }}" alt="Product Image" height="48" width="54" ></td>
                                             <td>{{ cart_item.project.product_title }}</td>
                                             <td>$ {{ cart_item.project.price }}</td>
                                             <td>{{ cart_item.quantity }}</td>
+                                            <td class="text-danger"><a href="#" class="delete_cart" data-id="{{ cart_item.id }}" data-url="{% url 'delete_cart' cart_item.id %}"><i class="fas fa-trash"></i> Delete</a></td>
                                         </tr>
                                     {% endfor %}
                                 {% else %}

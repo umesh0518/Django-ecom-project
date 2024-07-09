@@ -77,7 +77,7 @@
                                         <a href="{% url 'login' %}">Login</a></li>
                                         {% endif %}
                                     </li>
-                                    {% if user.is_authenticated %}
+                                    {% if user.is_authenticated and user.role == 2 %}
                                     <li>
                                         <a href="{% url "cart" %}" title="Shopping Cart" style="margin-left: 10px;">
                                             <span class="utilize-btn-icon">
@@ -137,7 +137,7 @@
                 <li>
                      {% if user.is_authenticated %}
                     <a href="{% url 'logout' %}">Logout</a></li>
-                    <li style="position: absolute; right: 0;">
+                    <li>
                         <a href="{% url 'myAccount' %}">
                             <img src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" width="40" height="40" alt="Profile Picture"><span>My Account</span>
                         </a>

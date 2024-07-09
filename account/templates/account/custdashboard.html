@@ -1,82 +1,126 @@
-{% extends "base2.html" %}
+{% extends 'base2.html' %}
 {% block content %}
 {% load static %}
-
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <!-- Load message -->
-    {% include 'includes/alerts.html' %}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!-- Load message -->
+        {% include 'includes/alerts.html' %}
+    </div>
 </div>
-
+<div class="alert alert-success mb-0" role="alert">
+    <h5 class="alert-heading">Welcome,  {{ user.first_name }}</h5>
+</div>
+<br>
 <div class="row">
     <div class="col-md-6 col-xl-3">
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-4">
-            <h5 class="card-title mb-0">Total Orders</h5>
-          </div>
-          <div class="row d-flex align-items-center mb-4">
-            <div class="col-8">
-              <h5 class="d-flex align-items-center mb-0">50 </h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="card-title mb-0"><a href="{% url 'customer_my_orders' %}">Total Orders</a></h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            {{ orders_count }}
+                        </h2>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="progress shadow-sm" style="height: 5px;">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;"></div>
-          </div>
         </div>
-      </div>
     </div>
     <div class="col-md-6 col-xl-3">
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-4">
-            <h5 class="card-title mb-0">Daily Orders</h5>
-          </div>
-          <div class="row d-flex align-items-center mb-4">
-            <div class="col-8">
-              <h5 class="d-flex align-items-center mb-0">NPR 25,000 </h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="badge badge-soft-primary float-right">All Time</span>
+                    <h5 class="card-title mb-0"><a href="">Total Spenditure</a></h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            ${{ total_investment|floatformat:2}}
+                        </h2>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="progress shadow-sm" style="height: 5px;">
-            <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;"></div>
-          </div>
         </div>
-      </div>
     </div>
     <div class="col-md-6 col-xl-3">
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-4">
-            <h5 class="card-title mb-0">Monthly Orders</h5>
-          </div>
-          <div class="row d-flex align-items-center mb-4">
-            <div class="col-8">
-              <h5 class="d-flex align-items-center mb-0">NPR 15,000 </h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="badge badge-soft-primary float-right">All Time</span>
+                    <h5 class="card-title mb-0">Average Order Value</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            ${{ average_value|floatformat:2 }}
+                        </h2>
+                    </div>
+                </div>
+                <div class="progress shadow-sm" style="height: 5px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ average_value }}%;"></div>
+                </div>
             </div>
-          </div>
-          <div class="progress shadow-sm" style="height: 5px;">
-            <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;"></div>
-          </div>
         </div>
-      </div>
     </div>
-    <div class="col-md-6 col-xl-3 mb-50">
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-4">
-            <h5 class="card-title mb-0">Revenue</h5>
-          </div>
-          <div class="row d-flex align-items-center mb-4">
-            <div class="col-8">
-              <h5 class="d-flex align-items-center mb-0">NPR 1000000 </h2>
+    <div class="col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="badge badge-soft-primary float-right">Current Month</span>
+                    <h5 class="card-title mb-0">This month orders</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0">
+                            {{ current_month_orders }}
+                        </h2>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="progress shadow-sm" style="height: 5px;">
-            <div class="progress-bar bg-info" role="progressbar" style="width: 100%;"></div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-{% endblock content %}
-
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 > Ordered Products </h2>
+                <table id="basic-datatable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Order Number</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Order Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td><img src="{{ order.product.image.url }}" alt="{{ order.product.product_title }}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                            <td>{{ order.order.order_number }}</td>
+                            <td>{{ order.product.product_title }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>${{ order.price }}</td>
+                            <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5">No recent orders</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row-->
+{% endblock %}

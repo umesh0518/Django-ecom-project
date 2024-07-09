@@ -66,13 +66,46 @@ $(document).ready(function() {
         decreaseCart(product_id, url);
     });
 
-    // Handle click on delete cart button
-    $('.delete_cart').on('click', function(e) {
-        e.preventDefault();
-        let cart_id = $(this).attr('data-id');
-        let url = $(this).attr('data-url');
-        deleteCartItem(cart_id, url);
-    });
+        // DELETE CART ITEM
+        $('.delete_cart').on('click', function(e){
+            e.preventDefault();
+            
+            cart_id = $(this).attr('data-id');
+            url = $(this).attr('data-url');
+            
+            
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function(response){
+                    console.log(response)
+                    if(response.status == 'Failed'){
+                        swal(response.message, '', 'error')
+                    }else{
+                        $('#cart_counter').html(response.cart_counter['cart_count']);
+                        swal({
+                            title: response.status,
+                            text: response.message,
+                            icon: "success",
+                            timer: 2000, // Show the swal message for 2 seconds
+                            buttons: false
+                        }).then(() => {
+                            // Redirect to the cart page after 2 seconds
+                            window.location.href = response.redirect_url;
+                        });
+    
+                        applyCartAmounts(
+                            response.cart_amount['subtotal'],
+                            response.cart_amount['tax_dict'],
+                            response.cart_amount['grand_total']
+                        )
+    
+                        removeCartItem(0, cart_id);
+                        checkEmptyCart();
+                    } 
+                }
+            })
+        })
 
     // Function to handle decreasing cart
     function decreaseCart(product_id, url) {

@@ -24,10 +24,11 @@
                           {% for product in productItems %}
                           <tr>
                               <td>
-                                  <img class="d-flex align-self-start rounded mr-3" src="{{ product.image.url }}" alt="{{ product.product_title }}" height="48" width="54">
+                                <a href="{% url "product_detail" id=product.id %}">
+                                  <img class="d-flex align-self-start rounded mr-3" src="{{ product.image.url }}" alt="{{ product.product_title }}" height="48" width="54"></a>
                               </td>
                               <td>
-                                  <a href="#"><p class="mb-0 font-weight-bold">{{ product.product_title }}</p>
+                                  <a href="{% url "product_detail" id=product.id %}"><p class="mb-0 font-weight-bold">{{ product.product_title }}</p>
                                   <small class="text-muted">Added date: {{ product.created_at }}</small></a><br>
                               </td>
                               <td>

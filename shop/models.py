@@ -26,7 +26,7 @@ class Category(models.Model):
 class Product(models.Model): 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, related_name='products', blank=True , null=True)  # Add this line
-    product_title = models.CharField(max_length=50)
+    product_title = models.CharField(max_length=50 , unique=False)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField(max_length=250, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)

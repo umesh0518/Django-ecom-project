@@ -6,7 +6,7 @@
 <div class="ltn__slider-area ltn__slider-3  section-bg-2--- ltn__slider-normal-height">
     <div class="ltn__slide-one-active slick-slide-arrow-1 slick-slide-dots-1">
         <!-- ltn__slide-item -->
-        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/71.jpg">
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="{% static "img/banner.png" %}">
             <div class="ltn__slide-item-inner  text-left">
                 <div class="container">
                     <div class="row">
@@ -29,22 +29,20 @@
             </div>
         </div>
         <!-- ltn__slide-item -->
-        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/74.jpg">
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="{% static "img/banner.png" %}">
             <div class="ltn__slide-item-inner  text-right">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 align-self-center">
                             <div class="slide-item-info">
                                 <div class="slide-item-info-inner ltn__slide-animation">
-                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Great Experience In Building</h6>
-                                    <h1 class="slide-title animated ">Highest Standards <br> Of Construction</h1>
+                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Create your own style</h6>
+                                    <h1 class="slide-title animated ">New Collections </h1>
                                     <div class="slide-brief animated">
-                                        <p>All types of work – from designing and laying the Foundation
-                                            finishing and commissioning. Tight deadlines, reasonable.</p>
+                                        <p>Create your style without compromising comfort.</p>
                                     </div>
                                     <div class="btn-wrapper animated">
-                                        <a href="contact.html" class="theme-btn-1 btn btn-effect-1">Get A Quate</a>
-                                        <a href="about.html" class="theme-btn-2 btn btn-effect-2">Learn More</a>
+                                        <a href="" class="theme-btn-2 btn btn-effect-2">Learn More</a>
                                     </div>
                                 </div>
                             </div>
@@ -54,22 +52,20 @@
             </div>
         </div>
         <!-- ltn__slide-item -->
-        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="img/slider/71.jpg">
+        <div class="ltn__slide-item ltn__slide-item-2  ltn__slide-item-3-normal--- ltn__slide-item-3 bg-image bg-overlay-theme-black-60---" data-bg="{% static "img/banner.png" %}">
             <div class="ltn__slide-item-inner  text-center">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12 align-self-center">
                             <div class="slide-item-info">
                                 <div class="slide-item-info-inner ltn__slide-animation">
-                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Great Experience In Building</h6>
-                                    <h1 class="slide-title animated ">Highest Standards <br> Of Construction</h1>
+                                    <h6 class="slide-sub-title ltn__secondary-color animated text-uppercase"><span><i class="fas fa-square-full"></i></span> Create your own style</h6>
+                                    <h1 class="slide-title animated ">New Collections </h1>
                                     <div class="slide-brief animated">
-                                        <p>All types of work – from designing and laying the Foundation
-                                            finishing and commissioning. Tight deadlines, reasonable.</p>
+                                        <p>Create your style without compromising comfort.</p>
                                     </div>
                                     <div class="btn-wrapper animated">
-                                        <a href="contact.html" class="theme-btn-1 btn btn-effect-1">Get A Quate</a>
-                                        <a href="about.html" class="theme-btn-2 btn btn-effect-2">Learn More</a>
+                                        <a href="" class="theme-btn-2 btn btn-effect-2">Learn More</a>
                                     </div>
                                 </div>
                             </div>
@@ -99,13 +95,13 @@
             {% for product in recent_products %}
             <div class="col-lg-12">
                 <div class="ltn__img-slide-item-3 ltn__img-slide-item-3-2">
-                    <a href="portfolio-details.html">
+                    <a href="{% url "product_detail" id=product.id %}">
                         <img src="{{product.image.url}}" alt="Image" style="height: 400px; object-fit: contain;">
                     </a>
                     <div class="ltn__img-slide-info">
                         <div class="ltn__img-slide-info-brief">
                             <h6>{{product.category}}</h6>
-                            <h1><a href="portfolio-details.html"> {{product.product_title}} </a></h1>
+                            <h1><a href="{% url "product_detail" id=product.id %}"> {{product.product_title}} </a></h1>
                         </div>
                         <div class="btn-wrapper">
                             <a href="{% url "product_detail" id=product.id %}" class="btn-- theme-btn-1-- btn-effect-1--">View Product<i class="flaticon-right-arrow"></i></a>

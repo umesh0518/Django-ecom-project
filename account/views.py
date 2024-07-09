@@ -177,6 +177,7 @@ def custDashboard(request):
 
     # Filter orders for the current month and for the specified user
     current_month_orders = Order.objects.filter(user=user, created_at__month=current_month, created_at__year=current_year)
+
     average_value = 0
     if orders.exists():
         average_value = orders.aggregate(avg_value=Avg('total'))['avg_value']
@@ -206,6 +207,7 @@ def vendorDashboard(request):
     orders = Order.objects.filter( is_ordered=True)
     orders_count = orders.count()
     total_revenue = sum(order.total for order in orders)
+    total_revenue = round(total_revenue , 2)
 
     # Fetch active projects
     products = Product.objects.all()
