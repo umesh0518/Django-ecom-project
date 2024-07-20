@@ -1,0 +1,33 @@
+version: "3.11"
+services:
+ 
+ db:
+  image: postgres:13
+  environment:
+    POSTGRES_DB: ${DB_NAME}
+    POSTGRES_USER: ${DB_USER}
+    POSTGRES_PASSWORD: ${DB_PASSWORD}
+  ports:
+    - "5432:5432" 
+  networks:
+    - django
+ app:
+  build: .
+  volumes:
+   - .:/django
+  ports:
+   - "8000:8000"
+  image: application:django
+  container_name: django_project
+  environment:
+    DB_NAME: ${DB_NAME}
+    DB_USER: ${DB_USER}
+    DB_PASSWORD: ${DB_PASSWORD}
+    DB_HOST: ${DB_HOST}
+  env_file: .env
+  networks:
+    - django
+  depends_on:
+   - db
+networks:
+  django:

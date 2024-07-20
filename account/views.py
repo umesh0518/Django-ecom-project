@@ -177,10 +177,10 @@ def custDashboard(request):
 
     # Filter orders for the current month and for the specified user
     current_month_orders = Order.objects.filter(user=user, created_at__month=current_month, created_at__year=current_year)
-
     average_value = 0
     if orders.exists():
         average_value = orders.aggregate(avg_value=Avg('total'))['avg_value']
+        
 
     orders_count = orders.count()
     total_investment = orders.aggregate(Sum('total'))['total__sum'] or 0
@@ -214,7 +214,16 @@ def vendorDashboard(request):
     product_count = products.count()
 
     # Get visitor count
-    visitor_count, created = VisitorCount.objects.get_or_create(id=1)
+    try:
+        visitor_counts = VisitorCount.objects.all()
+    except VisitorCount.DoesNotExist:
+        visitor_counts = None
+
+    if visitor_counts:
+        visitor_count = visitor_counts
+    else:
+        visitor_count = 0  # or handle the case when the visitor count does not exist
+
 
     sales_data = get_past_7_days_sales()
     dates = [data['date'] for data in sales_data]

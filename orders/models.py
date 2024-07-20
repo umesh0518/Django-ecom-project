@@ -48,9 +48,9 @@ class Order(models.Model):
     state = models.CharField(max_length=25, blank=True)
     city = models.CharField(max_length=50)
 
-    total = models.FloatField()
+    total = models.FloatField(blank=True , null = True )
     tax_data = models.JSONField(blank=True, help_text = "Data format: {'tax_type':{'tax_percentage':'tax_amount'}}")
-    total_tax = models.FloatField()
+    total_tax = models.FloatField(blank=True , null = True)
     total_data = models.JSONField(blank=True, null=True)
 
     payment_method = models.CharField(max_length=25)

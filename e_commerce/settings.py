@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -95,9 +96,21 @@ DATABASES = {
         'NAME' : config('DB_NAME'),
         'USER' : config('DB_USER'),
         'PASSWORD':config('DB_PASSWORD'),
-        'HOST' : config('DB_HOST')
+        'HOST' : config('DB_HOST'),
+        'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('DATABASE_NAME'),
+#         'USER': os.getenv('DATABASE_USER'),
+#         'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+#         'HOST': os.getenv('DATABASE_HOST'),
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -120,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = 'account.User'
 
-
+LOGIN_URL = '/account/login/'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 

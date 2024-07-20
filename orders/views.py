@@ -14,12 +14,17 @@ import json
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from django.core.serializers.json import DjangoJSONEncoder
-from django.contrib.sites.shortcuts import get_current_site
-
 
 @login_required(login_url='login')
 @user_passes_test(check_role_customer)
 def place_order(request):
+    if not request.user.is_authenticated:
+        print("User is not authenticated")
+        return redirect('login')
+    print("User is authenticated")
+
+
+    
     cart_items = Cart.objects.filter(user=request.user).order_by("created_at")
     cart_count = cart_items.count()
     if cart_count <= 0:
@@ -80,9 +85,13 @@ def place_order(request):
     return render(request, "orders/place_order.html")
 
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 @login_required(login_url='login')
 @user_passes_test(check_role_customer)
 def payments(request):
+
         # Check if the request is ajax or not
     if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
         # STORE THE PAYMENT DETAILS IN THE PAYMENT MODEL
